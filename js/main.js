@@ -1,90 +1,150 @@
-let sumarTotal = 0;
-let sumaBrasil = 0;
-let sumaGuanes = 0;
-let sumaExcelso = 0;
-let sumaDeLaCasa = 0;
-let medioDePago = 0;
-let precio = 0;
+let totalcompra = 0
 
-while (true) {
-    canasto = prompt(`seleccione el tipo de cafe que desea, escribiendo:
-1, para brasil minas gerais 500gr
-2, para colombia guanes 500gr
-3, para colombia excelso 500gr
-4, para blend de la casa 500gr
-o "fin" para finalizar`);
-
-    if (canasto == 1) {
-        precio = 2900;
-        sumarTotal += precio;
-        sumaBrasil += 1;
-    } else if (canasto == 2) {
-        precio = 3000;
-        sumarTotal += precio;
-        sumaGuanes += 1;
-    } else if (canasto == 3) {
-        precio = 3200;
-        sumarTotal += precio;
-        sumaExcelso += 1;
-    } else if (canasto == 4) {
-        precio = 4000;
-        sumarTotal += precio;
-        sumaDeLaCasa += 1;
-    } else if (canasto == "fin" || canasto == "FIN") {
-        alert(`el total es ${sumarTotal} pesos`);
-        break;
-    } else {
-        alert("opcion invalida, reintente");
-        continue;
-    }
-    alert(`el total es : ${sumarTotal} pesos.`);
+const superCrema = {
+    Nombre: "Super Crema",
+    Origen: "Argentina",
+    Sabor: "Balanceado",
+    Acidez: "Media",
+    Cuerpo: "Medio",
+    Cantidad: 250,
+    Precio: 1850,
 }
-
-/* segunda parte */
-
-function valorfinal() {
-    alert(`usted ha comprado:
-    ${sumaBrasil} paquetes de 500g de cafe de Brasil
-    ${sumaGuanes} paquetes de 500g de cafe Colombia Guanes
-    ${sumaExcelso} paquetes de 500g de cafe de Colombia Excelso
-    ${sumaDeLaCasa} paquetes de 500g de cafe de la casa
-    el total de la compra es de ${sumarTotal} pesos.`);
-
-    while (sumarTotal != 0) {
-        medioDePago = prompt(`
-        Seleccione medio de pago:
-        1 para efectivo 
-        2 para débito
-        3 para crédito`);
-
-        if (
-            medioDePago == 1 ||
-            medioDePago == 2 ||
-            medioDePago == 3
-            
-        ) {
-        switch (medioDePago) {
-            case "1":
-                alert(`Por favor, abone ${sumarTotal} pesos.
-            Muchas gracias`);
-                break;
-            case "2":
-                alert(`Por favor, abone ${sumarTotal} pesos con su tarjeta de débito.
-            Muchas gracias`);
-                break;
-            case "3":
-                let pagoEnCuotas = Math.floor(sumarTotal / 3);
-                alert(`Usted tiene un pago de ${sumarTotal} pesos ó 3 pagos de ${pagoEnCuotas} pesos sin interés.
-                El total seria de ${sumarTotal} pesos.
-                Muchas gracias`);
-                break;
-        }
-        break;
-        } else {
-            alert("Por favor, ingrese un medio de pago válido");
-            continue;
-        }
-    }
+const colombiaGuanes = {
+    Nombre: "Colombia Guanes",
+    Origen: "Colombia",
+    Sabor: "Suave",
+    Acidez: "Media",
+    Cuerpo: "Medio",
+    Cantidad: 250,
+    Precio: 2000,
 }
+const deLaCasa = {
+    Nombre: "Blend de la casa",
+    Origen: "Brasil, Colombia",
+    Sabor: "Balanceado",
+    Acidez: "Baja",
+    Cuerpo: "Pleno",
+    Cantidad: 250,
+    Precio: 1800,
+}
+const colombiaExcelso = {
+    Nombre: "Colombia Excelso",
+    Origen: "Colombia",
+    Sabor: "Suave",
+    Acidez: "Baja",
+    Cuerpo: "Ligero",
+    Cantidad: 250,
+    Precio: 1950,
+}
+const santosBourbon = {
+    Nombre: "Santos Bourbon",
+    Origen: "Brasil",
+    Sabor: "Intenso",
+    Acidez: "Media",
+    Cuerpo: "Pleno",
+    Cantidad: 250,
+    Precio: 1650,
+}
+const hondurasOrganico = {
+    Nombre: "Honduras Orgánico",
+    Origen: "Honduras",
+    Sabor: "Suave, dulce",
+    Acidez: "Tartárica",
+    Cuerpo: "Pleno",
+    Cantidad: 250,
+    Precio: 2600,
+}
+const tiposDeCafe = [superCrema, colombiaGuanes, deLaCasa, colombiaExcelso, santosBourbon, hondurasOrganico]
 
-valorfinal();
+
+/* filtros */
+
+let resultado = tiposDeCafe.filter ((producto)=> producto.Precio >= 2500);
+
+let filtroBrasil = tiposDeCafe.filter ((producto)=> producto.Origen === "Brasil" || producto.Origen === "Brasil, Colombia");
+
+let filtroColombia = tiposDeCafe.filter ((producto)=> producto.Origen === "Colombia" || producto.Origen === "Brasil, Colombia");
+
+/* console.log(filtroColombia)
+ */
+/* Buscador */
+
+const buscardelacasa = tiposDeCafe.find ((producto)=> producto.Nombre === "Blend de la casa")
+const buscaracidez = tiposDeCafe.find ((producto)=> producto.Acidez === "Baja")
+
+    let precioTotal = 0;
+
+    for (let cafe of tiposDeCafe){
+        let contenedor = document.createElement ("div")
+        contenedor.innerHTML =
+        `
+        <div class="container-cards card border-dark mb-3" style="max-width: 20rem;">
+            <div class="card-header">${cafe.Nombre}</div>
+            <div class="card-body">
+                <p class="card-text">
+                <p>Origen: ${cafe.Origen}</p>
+                <p>Sabor: ${cafe.Sabor}</p>
+                <p>Acidez: ${cafe.Acidez}</p>
+                <p>Cuerpo: ${cafe.Cuerpo}</p>
+                <p>Cantidad: ${cafe.Cantidad} gr.</p>
+                <p>Precio: $ ${cafe.Precio}</p>
+                </p>
+                <button type="button" class="agregar btn btn-dark">Agregar al carrito</button>
+            </div>
+        </div>
+        
+        `
+    
+        document.querySelector(".contenedorCafe").appendChild(contenedor)
+    
+    }
+    
+    const carritox = []
+    
+    const carritoDiv = document.querySelector("#tu_compra");
+    const precioTotalDiv = document.querySelector("#precio-total");
+    
+    document.querySelectorAll('.agregar').forEach((button, index)=> {
+        button.addEventListener ('click',()=> {
+            agregarProducto(tiposDeCafe[index]);
+        })
+    });
+    
+    function agregarProducto(producto) {
+        carritox.push(producto);
+        actualizarCarrito();
+    }
+    
+    function actualizarCarrito(){
+        carritoDiv.innerHTML = '';
+        precioTotal = 0;
+        carritox.forEach(producto => {
+            const productoDiv = document.createElement ('div');
+            productoDiv.classList.add('producto');
+            productoDiv.innerHTML = `
+            <h3> ${producto.Nombre}</h3>
+            <p>Cantidad: ${producto.Cantidad} gr.</p>
+            <p>Precio: $ ${producto.Precio}</p>
+            <button type="button" class="eliminar-producto btn btn-dark">Eliminar</button>
+            `;
+            carritoDiv.appendChild(productoDiv);
+            precioTotal += producto.Precio;
+        });
+        precioTotalDiv.innerHTML = `Total de su compra: $${precioTotal}`;
+    
+/* ELIMINO PRODUCTOS DEL CARRITO */
+
+        document.querySelectorAll('.eliminar-producto').forEach((button, index) => {
+            button.addEventListener('click', () => {
+                eliminarProducto(index);
+            });
+        });
+    }
+    
+    function eliminarProducto(index) {
+        const producto = carritox[index];
+        precioTotal -= producto.Precio;
+        carritox.splice(index, 1);
+        actualizarCarrito();
+    }
+    
