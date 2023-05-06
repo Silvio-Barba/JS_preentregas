@@ -13,6 +13,8 @@
 </head>
 <body>
     <header class="header">
+        
+
         <div><img class="logo" src="./images/LOGO.jpg" alt=""></div>
         <nav>
             <ul>
@@ -38,8 +40,16 @@
     </header>
 
     <main>
+        <form>
+            <input type="text" id="busqueda" placeholder="Buscar...">
+            <button type="submit" id="botonBuscar">Buscar</button>
+          </form>
+          <div id="resultado"></div>
+
+
         <h1>Productos Destacados</h1>
 
+       
     <section id="productos">
         <div class="contenedorCafe">
         </div>
@@ -58,6 +68,11 @@
         </div>
 
         <div id="precio-total">
+        </div>
+
+        <div>
+            Vaciar Carrito 
+            <button type="button" id="vaciar" class="btn btn-dark">Vaciar</button>
         </div>
 
     </section>

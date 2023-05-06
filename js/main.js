@@ -57,9 +57,68 @@ const hondurasOrganico = {
 const tiposDeCafe = [superCrema, colombiaGuanes, deLaCasa, colombiaExcelso, santosBourbon, hondurasOrganico]
 
 
+const textoBusqueda = document.getElementById('busqueda');
+const searchButton = document.getElementById('botonBuscar');
+const resultadosBusqueda = document.getElementById('resultado');
+
+
+
+
+searchButton.addEventListener('click', function(event) {
+    event.preventDefault();
+    const textoBusquedaTolowercase = textoBusqueda.value.toLowerCase();
+    const results = [];
+  
+    for (let i = 0; i < tiposDeCafe.length; i++) {
+      const cafe = tiposDeCafe[i];
+      const properties = Object.values(cafe);
+      for (let j = 0; j < properties.length; j++) {
+        const property = properties[j].toString().toLowerCase();
+        if (property.indexOf(textoBusquedaTolowercase) !== -1) {
+          results.push(cafe);
+          break;
+        }
+      }
+    }
+  
+    if (results.length === 0 || textoBusqueda.value === '' || textoBusqueda.value === ' ') {
+        resultadosBusqueda.innerHTML = ` Disculpá, pero "${textoBusquedaTolowercase}" no es un cafe.`;
+    } else {
+        resultadosBusqueda.innerHTML = '';
+      for (let i = 0; i < results.length; i++) {
+        const cafe = results[i];
+        const cafeInfo = `
+        <div class="container-cards card border-dark mb-3" style="max-width: 20rem;">
+        <div class="card-header">${cafe.Nombre}</div>
+        <div class="card-body">
+            <p class="card-text">
+            <p>Origen: ${cafe.Origen}</p>
+            <p>Sabor: ${cafe.Sabor}</p>
+            <p>Acidez: ${cafe.Acidez}</p>
+            <p>Cuerpo: ${cafe.Cuerpo}</p>
+            <p>Cantidad: ${cafe.Cantidad} gr.</p>
+            <p>Precio: $ ${cafe.Precio}</p>
+            </p>
+            <button type="button" class="agregar btn btn-dark">Agregar al carrito</button>
+        </div>
+    </div>
+        `;
+        resultadosBusqueda.innerHTML += cafeInfo;
+
+        document.querySelector(".contenedorCafe").innerHTML = '';
+        document.querySelector(".contenedorCafe").appendChild(resultadosBusqueda)
+      }
+    }
+  });
+
+  
+
+
+
+
 /* filtros */
 
-let resultado = tiposDeCafe.filter ((producto)=> producto.Precio >= 2500);
+let result = tiposDeCafe.filter ((producto)=> producto.Precio >= 2500);
 
 let filtroBrasil = tiposDeCafe.filter ((producto)=> producto.Origen === "Brasil" || producto.Origen === "Brasil, Colombia");
 
@@ -148,3 +207,38 @@ const buscaracidez = tiposDeCafe.find ((producto)=> producto.Acidez === "Baja")
         actualizarCarrito();
     }
     
+    /* VACIO CARRITO COMPLETO */
+
+    document.getElementById('vaciar').addEventListener('click', function() {
+      carritox.splice(0, carritox.length);
+      document.getElementById('tu_compra').innerHTML = '';
+      document.getElementById('precio-total').innerHTML = '';
+    });
+ 
+
+
+
+
+
+
+
+
+
+
+
+/* 
+
+
+
+
+    let vaciar = document.getElementById("#vaciar");
+    vaciar.addEventListener('click', () => {
+      vaciarCarrito();
+    });
+    
+    function vaciarCarrito() {
+      carritox.length = 0;
+    }
+
+
+ */
