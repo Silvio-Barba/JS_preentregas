@@ -40,6 +40,21 @@ body main {
   flex-direction: column;
   align-items: center;
 }
+body main div ul {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  column-gap: 12rem;
+}
+body main div ul li {
+  padding: 20px;
+  list-style: none;
+}
+body main div ul li a {
+  font-size: 1.5rem;
+  text-decoration: none;
+  color: #1c3144;
+}
 body main h1 {
   margin-top: 3rem;
   font-size: 2.5rem;
