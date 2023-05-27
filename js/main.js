@@ -6,7 +6,8 @@ const ListadeCafes = [
     sabor: "Balanceado",
     acidez: "Media",
     cuerpo: "Medio",
-    cantidad: 250,
+    peso: 250,
+    cantidad: 1,
     precio: 1850,
   },
   {
@@ -16,7 +17,8 @@ const ListadeCafes = [
     sabor: "Suave",
     acidez: "Media",
     cuerpo: "Medio",
-    cantidad: 250,
+    peso: 250,
+    cantidad: 1,
     precio: 2000,
   },
   {
@@ -26,7 +28,8 @@ const ListadeCafes = [
     sabor: "Balanceado",
     acidez: "Baja",
     cuerpo: "Pleno",
-    cantidad: 250,
+    peso: 250,
+    cantidad: 1,
     precio: 1800,
   },
   {
@@ -36,7 +39,8 @@ const ListadeCafes = [
     sabor: "Suave",
     acidez: "Baja",
     cuerpo: "Ligero",
-    cantidad: 250,
+    peso: 250,
+    cantidad: 1,
     precio: 1950,
   },
   {
@@ -46,7 +50,8 @@ const ListadeCafes = [
     sabor: "Intenso",
     acidez: "Media",
     cuerpo: "Pleno",
-    cantidad: 250,
+    peso: 250,
+    cantidad: 1,
     precio: 1650,
   },
   {
@@ -56,7 +61,8 @@ const ListadeCafes = [
     sabor: "Suave, dulce",
     acidez: "Tartárica",
     cuerpo: "Pleno",
-    cantidad: 250,
+    peso: 250,
+    cantidad: 1,
     precio: 2600,
   },
 ];
@@ -79,7 +85,7 @@ function mostrarCafes(cafesElegidos) {
         <p>Sabor: ${cafe.sabor}</p>
         <p>Acidez: ${cafe.acidez}</p>
         <p>Cuerpo: ${cafe.cuerpo}</p>
-        <p>Cantidad: ${cafe.cantidad} gr.</p>
+        <p>Peso: ${cafe.peso} gr.</p>
         <p>Precio: $ ${cafe.precio}</p>
         </p>
         <button type="button" id="${cafe.id}" class="agregar btn btn-dark">Agregar al carrito</button>
@@ -129,8 +135,9 @@ document.querySelectorAll(".agregar").forEach((button, index) => {
 function agregarProducto(producto) {
   const index = carritox.findIndex((p) => p.id === producto.id);
   if (index !== -1) {
-    carritox[index].cantidad += producto.cantidad;
+    carritox[index].cantidad += 1;
   } else {
+    producto.cantidad = 1;
     carritox.push(producto);
   }
   actualizarCarrito();
@@ -144,12 +151,13 @@ function actualizarCarrito() {
     productoDiv.classList.add("producto");
     productoDiv.innerHTML = `
         <h3> ${cafe.nombre}</h3>
-        <p>Cantidad: ${cafe.cantidad} gr.</p>
-        <p>Precio: $ ${(cafe.precio * cafe.cantidad) / 250}</p>
+        <p>Cantidad: ${cafe.cantidad}</p>
+        <p>Peso: ${cafe.peso * cafe.cantidad} gr.</p>
+        <p>Precio: $ ${cafe.precio * cafe.cantidad}</p>
         <button type="button" class="eliminar-producto btn btn-dark">Eliminar</button>
       `;
     carritoDiv.appendChild(productoDiv);
-    precioTotal += (cafe.precio * cafe.cantidad) / 250;
+    precioTotal += cafe.precio * cafe.cantidad;
   });
   precioTotalDiv.innerHTML = `Total de su compra: $${precioTotal}`;
 
@@ -165,14 +173,23 @@ function actualizarCarrito() {
 function eliminarProducto(index) {
   const producto = carritox[index];
   precioTotal -= producto.precio;
-  carritox.splice(index, 1);
+
+  if (producto.cantidad > 1) {
+    producto.cantidad--;
+  } else {
+    carritox.splice(index, 1);
+  }
+
   actualizarCarrito();
 }
 
 /* VACIO CARRITO COMPLETO */
 
-document.getElementById("vaciar").addEventListener("click", function () {
-  carritox.splice(0, carritox.length);
+function vaciarCarrito() {
+  carritox.length = 0;
+  actualizarCarrito();
   document.getElementById("tu_compra").innerHTML = "";
   document.getElementById("precio-total").innerHTML = "";
-});
+}
+
+document.getElementById("vaciar").addEventListener("click", vaciarCarrito);
